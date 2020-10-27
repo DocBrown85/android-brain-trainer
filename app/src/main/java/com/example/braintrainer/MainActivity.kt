@@ -3,6 +3,7 @@ package com.example.braintrainer
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var button3: Button
     lateinit var resultTextView: TextView
     lateinit var scoreTextView: TextView
+    lateinit var timerTextView: TextView
+    lateinit var playAgainButton: Button
 
     private val answers = ArrayList<Int>()
     private var locationOfCorrectAnswer = -1
@@ -77,6 +80,29 @@ class MainActivity : AppCompatActivity() {
         newQuestion()
     }
 
+    fun playAgain(view: View) {
+        totalNumberOfIssuedQuestions = 0
+        totalNumberOfCorrectAnswers = 0
+        timerTextView.text = "30s"
+        scoreTextView.text = "$totalNumberOfCorrectAnswers/$totalNumberOfIssuedQuestions"
+        newQuestion()
+        playAgainButton.visibility = View.INVISIBLE
+
+        val countDownTimer = object : CountDownTimer(5100, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                timerTextView.text = "${millisUntilFinished / 1000}s"
+            }
+
+            override fun onFinish() {
+                resultTextView.text = "Done!"
+                playAgainButton.visibility = View.VISIBLE
+            }
+
+        }.start()
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -89,8 +115,10 @@ class MainActivity : AppCompatActivity() {
         button3 = findViewById(R.id.button3)
         resultTextView = findViewById(R.id.resultTextView)
         scoreTextView = findViewById(R.id.scoreTextView)
+        timerTextView = findViewById(R.id.timerTextView)
+        playAgainButton = findViewById(R.id.playAgainButton)
 
-        newQuestion()
+        playAgain(resultTextView)
     }
 
 }
