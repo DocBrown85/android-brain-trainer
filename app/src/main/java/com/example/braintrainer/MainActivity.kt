@@ -87,6 +87,7 @@ class MainActivity : AppCompatActivity() {
         scoreTextView.text = "$totalNumberOfCorrectAnswers/$totalNumberOfIssuedQuestions"
         newQuestion()
         playAgainButton.visibility = View.INVISIBLE
+        resultTextView.text = ""
 
         val countDownTimer = object : CountDownTimer(30100, 1000) {
 
