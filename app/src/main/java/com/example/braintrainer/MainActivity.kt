@@ -1,5 +1,6 @@
 package com.example.braintrainer
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -16,20 +17,19 @@ class MainActivity : AppCompatActivity() {
     lateinit var button1: Button
     lateinit var button2: Button
     lateinit var button3: Button
+    lateinit var resultTextView: TextView
+    lateinit var scoreTextView: TextView
 
     private val answers = ArrayList<Int>()
+    private var locationOfCorrectAnswer = -1
+    private var totalNumberOfIssuedQuestions = 0
+    private var totalNumberOfCorrectAnswers = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    fun start(view: View) {
+        goButton.visibility = View.INVISIBLE
+    }
 
-        goButton = findViewById(R.id.goButton)
-        sumTextView = findViewById(R.id.sumTextView)
-        button0 = findViewById(R.id.button0)
-        button1 = findViewById(R.id.button1)
-        button2 = findViewById(R.id.button2)
-        button3 = findViewById(R.id.button3)
-
+    fun newQuestion() {
         val random = Random()
 
         val a = random.nextInt(21)
@@ -38,7 +38,8 @@ class MainActivity : AppCompatActivity() {
 
         sumTextView.text = a.toString() + " + " + b.toString()
 
-        val locationOfCorrectAnswer = random.nextInt(4)
+        answers.clear()
+        locationOfCorrectAnswer = random.nextInt(4)
         for (i in 0 until 4) {
             if (i == locationOfCorrectAnswer) {
                 answers.add(i, correctAnswer)
@@ -60,11 +61,35 @@ class MainActivity : AppCompatActivity() {
         button3.text = answers[3].toString()
     }
 
-    fun start(view: View) {
-        goButton.visibility = View.INVISIBLE
-    }
-
+    @SuppressLint("SetTextI18n")
     fun chooseAnswer(view: View) {
+        if (locationOfCorrectAnswer.toString() == view.tag.toString()) {
+            resultTextView.text = "Correct!"
+            totalNumberOfCorrectAnswers++
+        }
+        else {
+            resultTextView.text = "Wrong!"
+        }
+        totalNumberOfIssuedQuestions++
+        scoreTextView.text = "$totalNumberOfCorrectAnswers/$totalNumberOfIssuedQuestions"
 
+        newQuestion()
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        goButton = findViewById(R.id.goButton)
+        sumTextView = findViewById(R.id.sumTextView)
+        button0 = findViewById(R.id.button0)
+        button1 = findViewById(R.id.button1)
+        button2 = findViewById(R.id.button2)
+        button3 = findViewById(R.id.button3)
+        resultTextView = findViewById(R.id.resultTextView)
+        scoreTextView = findViewById(R.id.scoreTextView)
+
+        newQuestion()
+    }
+
 }
