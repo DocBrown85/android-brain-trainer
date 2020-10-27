@@ -29,14 +29,15 @@ class MainActivity : AppCompatActivity() {
         goButton.visibility = View.INVISIBLE
     }
 
-    fun newQuestion() {
+    @SuppressLint("SetTextI18n")
+    private fun newQuestion() {
         val random = Random()
 
         val a = random.nextInt(21)
         val b = random.nextInt(21)
         val correctAnswer = a + b
 
-        sumTextView.text = a.toString() + " + " + b.toString()
+        sumTextView.text = "$a + $b"
 
         answers.clear()
         locationOfCorrectAnswer = random.nextInt(4)
