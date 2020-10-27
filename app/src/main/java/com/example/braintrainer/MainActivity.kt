@@ -19,4 +19,8 @@ class MainActivity : AppCompatActivity() {
     fun start(view: View) {
         goButton.visibility = View.INVISIBLE
     }
+
+    fun chooseAnswer(view: View) {
+
+    }
 }
