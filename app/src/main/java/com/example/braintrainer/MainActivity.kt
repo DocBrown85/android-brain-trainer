@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         newQuestion()
         playAgainButton.visibility = View.INVISIBLE
 
-        val countDownTimer = object : CountDownTimer(5100, 1000) {
+        val countDownTimer = object : CountDownTimer(30100, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
                 timerTextView.text = "${millisUntilFinished / 1000}s"
